@@ -68,10 +68,10 @@ environments {
     }
      
     servers = [
-      '54.76.166.228' : [
+      '52.18.244.183' : [
         roles: [ 'database' ]      
       ],
-      '52.16.62.203' : [
+      '52.17.27.139' : [
         roles: [ 'application' ] 
       ],
     ]
