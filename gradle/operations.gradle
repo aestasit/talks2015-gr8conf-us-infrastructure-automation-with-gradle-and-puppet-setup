@@ -82,7 +82,7 @@ task path(description: 'Prints $PATH variable value from remote server(s) (ident
 
 task hostname(description: 'Executes hostname command on remote server(s) (identified by -Penv=<environment>).', group: 'SSH Remote') << {
   forEachServer {
-    exec 'hostname -a'
+    exec 'sudo -i hostname -a'
   }
 }
 
@@ -97,6 +97,14 @@ task puppetVersion(description: 'Executes hostname command on remote server(s) (
 task aptUpdate(description: 'Executes APT list update command on remote server(s) (identified by -Penv=<environment>).', group: 'SSH Remote') << {
   forEachServer {
     exec 'sudo -i apt-get -q -y update'
+  }
+}
+
+
+task updateLocalHostname(description: 'Adds /etc/hostname to aliases of 127.0.0.1 on remote server(s) (identified by -Penv=<environment>).', group: 'SSH Remote') << {
+  forEachServer {
+    String remoteHostname = remoteFile('/etc/hostname').text.trim()
+    exec "sudo sed -i 's/^127.0.0.1.*/127.0.0.1 localhost ${remoteHostname}/g' /etc/hosts"
   }
 }
 
